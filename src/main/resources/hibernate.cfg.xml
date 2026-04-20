@@ -1,0 +1,33 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- ── Conexión ── -->
+        <property name="hibernate.connection.driver_class">
+            com.mysql.cj.jdbc.Driver
+        </property>
+        <property name="hibernate.connection.url">
+            jdbc:mysql://localhost:3306/Recintos
+        </property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">toor</property>
+        <!-- ── Dialecto: le dice a Hibernate qué "sabor" de SQL generar ── -->
+        <property name="hibernate.dialect">
+            org.hibernate.dialect.MySQLDialect
+        </property>
+        <!-- ── Gestión del esquema ── -->
+        <!--
+        create → borra y crea las tablas cada vez (útil al principio)
+        update → actualiza el esquema sin borrar datos (recomendado)
+        validate → solo comprueba que el esquema es correcto
+        create-drop → crea al arrancar y borra al cerrar (para tests)
+        -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <!-- ── Mostrar el SQL generado en consola (muy útil para aprender) ── -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <!-- ── Entidades mapeadas ── -->
+        <mapping class="entities.Recinto"/>
+    </session-factory>
+</hibernate-configuration>
