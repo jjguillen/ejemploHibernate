@@ -84,7 +84,28 @@ public class RecintosDAO {
         }
     }
 
+    // ── READ con Eventos (por id) ─────────────────────────────────────────────────────
+    public static Recinto findByIdWithEventos(Long id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Recinto recinto = session.find(Recinto.class, id);
+            if (recinto != null) {
+                //Cargamos eventos de ese recinto en el objeto
+                session.load(recinto.getEventos(), "eventos");
+                return recinto;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.err.println("❌ Error al cargar el recinto con eventos: " + e.getMessage());
+            return null;
+        } finally {
+            session.close();
+        }
+
+    }
 
 
 
 }
+

@@ -33,7 +33,7 @@ public class Recinto {
     private boolean techado;
 
     @OneToMany(mappedBy = "recinto", cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Evento> eventos = new ArrayList<>();
 
