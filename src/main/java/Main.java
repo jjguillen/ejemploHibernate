@@ -33,6 +33,15 @@ public class Main {
              System.out.println("Recinto no encontrado.");
          }
 
+         RecintosDAO.findAll().forEach(System.out::println);
+
+         Recinto r2 = new Recinto(null, "Sala BSide",
+                "Murcia", 500, true);
+         RecintosDAO.create(r2);
+
+         r2.setAforo(1000);
+         RecintosDAO.update(r2);
+
 
     }
 
