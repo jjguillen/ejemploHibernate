@@ -2,6 +2,7 @@ import entities.EstadoEvento;
 import entities.Evento;
 import entities.Recinto;
 import org.hibernate.Session;
+import services.EventosDAO;
 import services.RecintosDAO;
 import utils.HibernateUtil;
 
@@ -23,20 +24,22 @@ public class Main {
          RecintosDAO.findAll().forEach(System.out::println);
          */
 
+         //RecintosDAO.delete(3L);
+         //RecintosDAO.delete(13L);
 
-         Recinto r2 = new Recinto(null, "Sala BSide",
-                "Murcia", 500, true, new ArrayList<>());
-         RecintosDAO.create(r2);
-
-         r2.setAforo(1000);
-         RecintosDAO.update(r2);
-
-         RecintosDAO.delete(3L);
-         RecintosDAO.delete(13L);
+         Recinto r2 = RecintosDAO.findById(6L);
 
          Evento ev1 = new Evento(null, "Concierto Rosalía", "Concierto",
                  LocalDate.of(2026,5,5), 120.0,
                  EstadoEvento.PROGRAMADO, r2);
+         EventosDAO.create(ev1);
+
+         Evento ev2 = new Evento(null, "Obra de teatro Hamlet",
+                 "Teatro",   LocalDate.of(2026,6,10),
+                 50.0, EstadoEvento.PROGRAMADO, r2);
+         EventosDAO.create(ev1);
+
+         r2.getEventos().forEach(System.out::println);
 
 
     }
