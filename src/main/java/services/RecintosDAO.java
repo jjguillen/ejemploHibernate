@@ -1,6 +1,7 @@
 package services;
 
 import entities.Recinto;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import utils.HibernateUtil;
 
@@ -91,7 +92,7 @@ public class RecintosDAO {
             Recinto recinto = session.find(Recinto.class, id);
             if (recinto != null) {
                 //Cargamos eventos de ese recinto en el objeto
-                session.load(recinto.getEventos(), "eventos");
+                Hibernate.initialize(recinto.getEventos());
                 return recinto;
             } else {
                 return null;

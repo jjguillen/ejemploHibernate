@@ -85,6 +85,16 @@ public class EventosDAO {
         }
     }
 
+    // ── CONSULTAS HQL ──────────────────────────────────────────────────
+
+    public static List<Evento> findByEstadoProgramado() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM Evento e WHERE e.estado = 'PROGRAMADO'",
+                    Evento.class).list();
+        }
+    }
+
+
 
 
 
