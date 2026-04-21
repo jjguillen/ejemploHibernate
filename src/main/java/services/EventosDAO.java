@@ -110,6 +110,18 @@ public class EventosDAO {
         }
     }
 
+    public static List<Evento> getEventoByCiudadRecinto(String city) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM Evento e JOIN FETCH e.recinto r " +
+                                    "WHERE r.ciudad = :ciudad",
+                            Evento.class)
+                    .setParameter("ciudad", city) //Evitar SQL Injection
+                    .list();
+        }
+    }
+
+
+
 
 
 
