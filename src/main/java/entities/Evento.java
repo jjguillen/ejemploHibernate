@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
@@ -33,7 +34,10 @@ public class Evento {
     @Enumerated(EnumType.STRING)
     private EstadoEvento estado;
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recinto_id")  //FK
+    @ToString.Exclude
+    private Recinto recinto;
 
 
 }

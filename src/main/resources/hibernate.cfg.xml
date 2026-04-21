@@ -29,5 +29,6 @@
         <property name="hibernate.format_sql">true</property>
         <!-- ── Entidades mapeadas ── -->
         <mapping class="entities.Recinto"/>
+        <mapping class="entities.Evento"/>
     </session-factory>
 </hibernate-configuration>
