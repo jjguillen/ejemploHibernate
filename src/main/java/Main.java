@@ -45,6 +45,16 @@ public class Main {
          System.out.println(r2);
          r2.getEventos().forEach(System.out::println);
 
+         //Consulta a BBDD con WHERE
+         EventosDAO.findByEstadoProgramado().forEach(System.out::println);
+
+         //Consulta a BBDD con todos, y el filtro con Streams
+         EventosDAO.findAll().stream()
+                 .filter(e -> e.getEstado().equals(EstadoEvento.PROGRAMADO))
+                 .forEach(System.out::println);
+
+         EventosDAO.findOrderByFecha().forEach(System.out::println);
+
 
     }
 

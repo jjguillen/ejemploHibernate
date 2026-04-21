@@ -94,6 +94,24 @@ public class EventosDAO {
         }
     }
 
+    public static List<Evento> findOrderByFecha() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM Evento e ORDER BY e.fechaEvento ASC",
+                    Evento.class).list();
+        }
+    }
+
+    public static List<Evento> findByCategory(String category) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM Evento e WHERE e.categoria = :categ",
+                    Evento.class)
+                    .setParameter("categ", category) //Evitar SQL Injection
+                    .list();
+        }
+    }
+
+
+
 
 
 
