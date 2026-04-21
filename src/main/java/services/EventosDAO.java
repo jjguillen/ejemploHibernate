@@ -1,5 +1,6 @@
 package services;
 
+import entities.Asistente;
 import entities.Evento;
 import entities.Recinto;
 import org.hibernate.Session;
@@ -40,6 +41,18 @@ public class EventosDAO {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             // HQL: FROM NombreClase (no FROM nombre_tabla)
             return session.createQuery("FROM Evento", Evento.class).list();
+        }
+    }
+
+    // ── READ (por id con asistentes inicializados) ──────────────────────
+    public static Evento findByIdWithAsistentes(Long id) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Evento evento = session.find(Evento.class, id);
+            if (evento != null) {
+                // Inicializar la colección de asistentes dentro de la sesión activa
+                org.hibernate.Hibernate.initialize(evento.getAsistentes());
+            }
+            return evento;
         }
     }
 
@@ -120,12 +133,59 @@ public class EventosDAO {
         }
     }
 
+    // ── VINCULAR ASISTENTE A EVENTO ─────────────────────────────────────
+    public static void addAsistenteToEvento(Long idEvento, Long idAsistente) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            session.beginTransaction();
+            Evento evento = session.find(Evento.class, idEvento);
+            Asistente asistente = session.find(Asistente.class, idAsistente);
 
+            if (evento == null) {
+                System.out.println("⚠ No se encontró evento con id: " + idEvento);
+            } else if (asistente == null) {
+                System.out.println("⚠ No se encontró asistente con id: " + idAsistente);
+            } else {
+                evento.addAsistente(asistente);
+                session.merge(evento);
+                session.getTransaction().commit();
+                System.out.println("✅ Asistente vinculado al evento correctamente");
+            }
+        } catch (Exception e) {
+            System.err.println("❌ Error al vincular asistente al evento: " + e.getMessage());
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+        } finally {
+            session.close();
+        }
+    }
 
+    // ── DESVINCULAR ASISTENTE DE EVENTO ─────────────────────────────────
+    public static void removeAsistenteFromEvento(Long idEvento, Long idAsistente) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            session.beginTransaction();
+            Evento evento = session.find(Evento.class, idEvento);
+            Asistente asistente = session.find(Asistente.class, idAsistente);
 
-
-
-
-
-
+            if (evento == null) {
+                System.out.println("⚠ No se encontró evento con id: " + idEvento);
+            } else if (asistente == null) {
+                System.out.println("⚠ No se encontró asistente con id: " + idAsistente);
+            } else {
+                evento.removeAsistente(asistente);
+                session.merge(evento);
+                session.getTransaction().commit();
+                System.out.println("✅ Asistente desvinculado del evento correctamente");
+            }
+        } catch (Exception e) {
+            System.err.println("❌ Error al desvincular asistente del evento: " + e.getMessage());
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+        } finally {
+            session.close();
+        }
+    }
 }

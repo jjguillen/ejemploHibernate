@@ -30,5 +30,6 @@
         <!-- ── Entidades mapeadas ── -->
         <mapping class="entities.Recinto"/>
         <mapping class="entities.Evento"/>
+        <mapping class="entities.Asistente"/>
     </session-factory>
 </hibernate-configuration>

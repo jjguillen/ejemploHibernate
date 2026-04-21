@@ -1,7 +1,9 @@
+import entities.Asistente;
 import entities.EstadoEvento;
 import entities.Evento;
 import entities.Recinto;
 import org.hibernate.Session;
+import services.AsistenteDAO;
 import services.EventosDAO;
 import services.RecintosDAO;
 import utils.HibernateUtil;
@@ -59,6 +61,18 @@ public class Main {
 
          EventosDAO.getEventoByCiudadRecinto("Murcia").forEach(System.out::println);
 
+         // Usa findByIdWithAsistentes para cargar el evento con sus asistentes
+         Evento ev1 = EventosDAO.findByIdWithAsistentes(4L);
+         System.out.println(ev1);
+
+         Asistente as1 = new Asistente(null, "Juan Pérez", "juanperez@gmail",
+                 21, "658795231", new ArrayList<>());
+         AsistenteDAO.create(as1);
+
+         ev1.addAsistente(as1);
+         EventosDAO.update(ev1);
+
+         EventosDAO.addAsistenteToEvento(1L, as1.getId());
 
     }
 

@@ -1,5 +1,6 @@
 package services;
 
+import entities.Evento;
 import entities.Recinto;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -106,7 +107,16 @@ public class RecintosDAO {
 
     }
 
-
+    // ── READ (todos con eventos inicializados) ────────────────────────────
+    public static List<Recinto> findAllWithEventos() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // HQL con JOIN FETCH para cargar los eventos directamente
+            return session.createQuery(
+                    "SELECT DISTINCT r FROM Recinto r LEFT JOIN FETCH r.eventos",
+                    Recinto.class
+            ).list();
+        }
+    }
 
 }
 
