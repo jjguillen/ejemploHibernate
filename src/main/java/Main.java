@@ -42,6 +42,8 @@ public class Main {
          r2.setAforo(1000);
          RecintosDAO.update(r2);
 
+         RecintosDAO.delete(3L);
+         RecintosDAO.delete(13L);
 
     }
 
